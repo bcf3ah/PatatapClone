@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Patatap Clone</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+        <link href="assets/css/patatap.css" type="text/css" rel="stylesheet">
+        <script type="text/javascript" src="assets/js/lib/paper-full.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.2/howler.core.min.js"></script>
+        <script type="text/paperscript" canvas="myCanvas">
+            
+            
+            var keys = {
+                q: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/bubbles.mp3']
+		}),
+		color: '#1abc9c'
+	},
+	w: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/clay.mp3']
+		}),
+		color: '#2ecc71'
+	},
+	e: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/confetti.mp3']
+		}),
+		color: '#3498db'
+	},
+	r: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/corona.mp3']
+		}),
+		color: '#9b59b6'
+	},
+		t: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/dotted-spiral.mp3']
+		}),
+		color: '#34495e'
+	},
+	y: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/flash-1.mp3']
+		}),
+		color: '#16a085'
+	},
+	u: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/flash-2.mp3']
+		}),
+		color: '#27ae60'
+	},
+	i: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/flash-3.mp3']
+		}),
+		color: '#2980b9'
+	},
+	o: {
+		sound: new Howl({
+		src: ['assets/js/lib/sounds/glimmer.mp3']
+		}),
+		color: '#8e44ad'
+	},
+	p: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/moon.mp3']
+		}),
+		color: '#2c3e50'
+	},
+	a: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/pinwheel.mp3']
+		}),
+		color: '#f1c40f'
+	},
+	s: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/piston-1.mp3']
+		}),
+		color: '#e67e22'
+	},
+		d: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/piston-2.mp3']
+		}),
+		color: '#e74c3c'
+	},
+	f: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/prism-1.mp3']
+		}),
+		color: '#95a5a6'
+	},
+	g: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/prism-2.mp3']
+		}),
+		color: '#f39c12'
+	},
+	h: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/prism-3.mp3']
+		}),
+		color: '#d35400'
+	},
+	j: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/splits.mp3']
+		}),
+		color: '#1abc9c'
+	},
+	k: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/squiggle.mp3']
+		}),
+		color: '#2ecc71'
+	},
+	l: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/strike.mp3']
+		}),
+		color: '#3498db'
+	},
+	z: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/suspension.mp3']
+		}),
+		color: '#9b59b6'
+	},
+	x: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/timer.mp3']
+		}),
+		color: '#34495e'
+	},
+	c: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/ufo.mp3']
+		}),
+		color: '#16a085'
+	},
+	v: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/veil.mp3']
+		}),
+		color: '#27ae60'
+	},
+	b: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/wipe.mp3']
+		}),
+		color: '#2980b9'
+	},
+	n: {
+		sound: new Howl({
+		src: ['assets/js/lib/sounds/zig-zag.mp3']
+		}),
+		color: '#8e44ad'
+	},
+	m: {
+		sound: new Howl({
+  		src: ['assets/js/lib/sounds/moon.mp3']
+		}),
+		color: '#2c3e50'
+	}
+                
+                
+        
+            }
+            
+            
+            
+            
+            var circles =[];
+            
+            function onKeyDown(event) {
+                if (keys[event.key]){
+                var maxPoint = new Point(view.size.width, view.size.height); //creates a point at the very edge of whatever your screen size is
+                var randomPoint = Point.random(); //built-in function that creates something like (.58093, .98920) or anything between 0-1
+                var point = maxPoint * randomPoint; //multiplies the max screen size coordinate by a random fraction to create a random coord point!
+                //Example: maxPoint is (1920, 1080) and randomPoint is (0.1, 0.5). Then point will be (920, 972)!! :)
+                
+                // When a key is pressed, create new circle:
+                var newCircle = new Path.Circle(point, 300);
+                newCircle.fillColor = keys[event.key].color;
+                keys[event.key].sound.play();
+                
+                circles.push(newCircle);
+                }
+            }
+            
+            //animation effects
+            function onFrame(){
+                for (var i=0; i<circles.length; i++){
+                    circles[i].fillColor.hue += 1;
+                    circles[i].scale(.95);
+                    if(circles[i].area < 1){
+                      circles[i].remove();
+                      circles.splice(i, 1);
+                      console.log(circles);
+                    }
+                } 
+            }
+            
+        </script>
+        
+    </head>
+    <body>
+        <p>Press any key a-z and crank up the volume</p>
+        <canvas id="myCanvas" resize></canvas>
+             
+    </body>
+</html>
